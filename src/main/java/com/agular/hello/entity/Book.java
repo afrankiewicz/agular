@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -18,18 +19,22 @@ public class Book {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "ISNB must be provided")
     @NonNull
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
 
+    @NotBlank(message = "Book title must be provided")
     @NonNull
     @Column(name = "title", nullable = false)
     private String title;
 
+    @NotBlank(message = "Book author must be provided")
     @NonNull
     @Column(name = "author", nullable = false)
     private String author;
 
+    @NotBlank(message = "Book language must be provided")
     @NonNull
     @Column(name = "language", nullable = false)
     private String language;
