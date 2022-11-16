@@ -2,6 +2,9 @@ package com.agular.hello.service;
 
 import com.agular.hello.entity.Book;
 import com.agular.hello.entity.User;
+import com.agular.hello.exceptions.BookAlreadyBorrowedException;
+import com.agular.hello.exceptions.BookAlreadyExistsException;
+import com.agular.hello.exceptions.BookNotFoundInUserLibraryException;
 import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,6 +20,10 @@ public class BookService {
     public Book registerBook(Book book, Long userId){
         User user = userRepository.findById(userId).get();
         book.setOwner(user);
+
+        if (bookRepository.existsByIsbn(book.getIsbn())){
+            throw new BookAlreadyExistsException(book.getId());
+        }
         return bookRepository.save(book);
     }
 
@@ -24,25 +31,20 @@ public class BookService {
         Book book = bookRepository.findById(bookId).get();
         User user = userRepository.findById(userId).get();
 
-        if (book.getBorrower().getId() == null) {
-            book.setBorrower(user);
-        } else {
-            System.out.println("Can't borrow the book -> book is already borrowed");
+        if (book.getBorrower().getId() != null){
+            throw new BookAlreadyBorrowedException(bookId);
         }
-
+        book.setBorrower(user);
         return bookRepository.save(book);
     }
 
     public Book returnBook(Long bookId, Long userId){
         Book book = bookRepository.findById(bookId).get();
-        User user = userRepository.findById(userId).get();
 
-        if (book.getBorrower().getId() == userId){
-            book.setBorrower(null);
-        } else {
-            System.out.println("Can't return the book -> book is not borrowed by you");
+        if (book.getBorrower().getId() != userId){
+            throw new BookNotFoundInUserLibraryException(bookId);
         }
-
+        book.setBorrower(null);
         return bookRepository.save(book);
     }
 
