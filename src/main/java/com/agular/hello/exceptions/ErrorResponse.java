@@ -1,15 +1,18 @@
 package com.agular.hello.exceptions;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-
-@RequiredArgsConstructor
 public class ErrorResponse {
 
-    @NonNull
-    private List<String> message;
+    private String message;
 
+    public ErrorResponse(String message) {
+        this.message = message;
+    }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

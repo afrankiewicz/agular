@@ -49,4 +49,5 @@ public class Book {
     @JoinColumn(name = "borrower_id", referencedColumnName = "id")
     private User borrower;
 
+
 }

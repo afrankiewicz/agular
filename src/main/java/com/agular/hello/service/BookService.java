@@ -2,9 +2,7 @@ package com.agular.hello.service;
 
 import com.agular.hello.entity.Book;
 import com.agular.hello.entity.User;
-import com.agular.hello.exceptions.BookAlreadyBorrowedException;
-import com.agular.hello.exceptions.BookAlreadyExistsException;
-import com.agular.hello.exceptions.BookNotFoundInUserLibraryException;
+import com.agular.hello.exceptions.BadRequestException;
 import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
 import lombok.AllArgsConstructor;
@@ -22,7 +20,7 @@ public class BookService {
         book.setOwner(user);
 
         if (bookRepository.existsByIsbn(book.getIsbn())){
-            throw new BookAlreadyExistsException(book.getId());
+            throw new BadRequestException(String.format("Book with ISBN: '%s' already exists in library.", book.getIsbn()));
         }
         return bookRepository.save(book);
     }
@@ -31,8 +29,10 @@ public class BookService {
         Book book = bookRepository.findById(bookId).get();
         User user = userRepository.findById(userId).get();
 
-        if (book.getBorrower().getId() != null){
-            throw new BookAlreadyBorrowedException(bookId);
+        if (book.getBorrower() != null){
+            throw new BadRequestException("Book is already borrowed.");
+        } else if (book.getOwner().getId() == userId) {
+            throw new BadRequestException("Book belongs to you.");
         }
         book.setBorrower(user);
         return bookRepository.save(book);
@@ -41,9 +41,14 @@ public class BookService {
     public Book returnBook(Long bookId, Long userId){
         Book book = bookRepository.findById(bookId).get();
 
-        if (book.getBorrower().getId() != userId){
-            throw new BookNotFoundInUserLibraryException(bookId);
+        if (book.getBorrower() != null){
+            if (book.getBorrower().getId() != userId){
+                throw new BadRequestException("Book is not borrowed by you.");
+            }
+        } else {
+            throw new BadRequestException("Book is not borrowed by you.");
         }
+
         book.setBorrower(null);
         return bookRepository.save(book);
     }

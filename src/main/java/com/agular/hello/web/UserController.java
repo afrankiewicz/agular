@@ -4,11 +4,9 @@ import com.agular.hello.entity.User;
 import com.agular.hello.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
@@ -17,9 +15,16 @@ public class UserController {
 
     UserService userService;
 
-    @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
+//    @PostMapping
+//    public ResponseEntity<User> addUser(@RequestBody User user){
+//        return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@Valid @RequestBody User user){
+//        userService.addUser(user);
+        return userService.addUser(user);
     }
 
 
