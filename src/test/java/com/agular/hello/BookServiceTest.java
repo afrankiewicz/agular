@@ -1,12 +1,26 @@
 package com.agular.hello;
 
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import com.agular.hello.entity.User;
+import com.agular.hello.service.UserService;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = )
+import java.util.Optional;
+
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
 public class BookServiceTest {
 
+    @Autowired
+    UserService userService;
+
+    @Test
+    public void shouldAddUser() {
+        User user = userService.addUser(new User("q", "w","eee@wp.pl", "r"));
+        Optional<User> optionalUser = userService.getUser(user.getId());
+
+        Assert.assertTrue(optionalUser.isPresent());
+    }
 
 }

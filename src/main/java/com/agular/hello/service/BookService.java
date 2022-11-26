@@ -5,15 +5,18 @@ import com.agular.hello.entity.User;
 import com.agular.hello.exceptions.BadRequestException;
 import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
 @Service
 public class BookService {
 
     BookRepository bookRepository;
     UserRepository userRepository;
+
+    public BookService(BookRepository bookRepository, UserRepository userRepository) {
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
+    }
 
     public Book registerBook(Book book, Long userId){
         User user = userRepository.findById(userId).get();

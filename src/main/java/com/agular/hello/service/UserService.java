@@ -4,19 +4,23 @@ import com.agular.hello.entity.User;
 import com.agular.hello.exceptions.BadRequestException;
 import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@AllArgsConstructor
 @Service
 public class UserService {
 
     private UserRepository userRepository;
     private BookRepository bookRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserService(UserRepository userRepository, BookRepository bookRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     public Optional<User> getUser(Long id){
         return userRepository.findById(id);
