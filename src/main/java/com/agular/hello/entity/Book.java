@@ -2,7 +2,6 @@ package com.agular.hello.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -48,6 +47,5 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "borrower_id", referencedColumnName = "id")
     private User borrower;
-
 
 }

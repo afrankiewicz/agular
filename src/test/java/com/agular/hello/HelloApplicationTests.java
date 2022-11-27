@@ -1,7 +1,6 @@
 package com.agular.hello;
 
 import com.agular.hello.entity.User;
-import com.agular.hello.exceptions.BadRequestException;
 import com.agular.hello.service.UserService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,6 @@ class HelloApplicationTests {
 		User user = userService.addUser(new User("Jan", "Kowalski","jkowalski@wp.pl", "qwe123"));
 		userService.addUser(user);
 
-		Assert.assertThrows(userService.addUser(user), new BadRequestException("sdf"));
 
 	}
 

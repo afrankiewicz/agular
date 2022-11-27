@@ -7,6 +7,8 @@ import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookService {
 
@@ -18,8 +20,8 @@ public class BookService {
         this.userRepository = userRepository;
     }
 
-    public Book registerBook(Book book, Long userId){
-        User user = userRepository.findById(userId).get();
+    public Book registerBook(Book book, String email){
+        User user = userRepository.findByEmail(email).get();
         book.setOwner(user);
 
         if (bookRepository.existsByIsbn(book.getIsbn())){
@@ -28,24 +30,24 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book borrowBook(Long bookId, Long userId){
+    public Book borrowBook(Long bookId, String email){
         Book book = bookRepository.findById(bookId).get();
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findByEmail(email).get();
 
         if (book.getBorrower() != null){
             throw new BadRequestException("Book is already borrowed.");
-        } else if (book.getOwner().getId() == userId) {
+        } else if (book.getOwner().getEmail() == email) {
             throw new BadRequestException("Book belongs to you.");
         }
         book.setBorrower(user);
         return bookRepository.save(book);
     }
 
-    public Book returnBook(Long bookId, Long userId){
+    public Book returnBook(Long bookId, String email){
         Book book = bookRepository.findById(bookId).get();
 
         if (book.getBorrower() != null){
-            if (book.getBorrower().getId() != userId){
+            if (book.getBorrower().getEmail() != email){
                 throw new BadRequestException("Book is not borrowed by you.");
             }
         } else {
@@ -56,6 +58,14 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public List<Book> getOwned(String email){
+        User user = userRepository.findByEmail(email).get();
+        return bookRepository.getBooksByOwner(user);
+    }
 
+    public List<Book> getBorrowed(String email){
+        User user = userRepository.findByEmail(email).get();
+        return bookRepository.getBooksByBorrower(user);
+    }
 
 }
