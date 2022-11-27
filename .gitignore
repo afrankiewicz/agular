@@ -31,3 +31,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+agular-web/node_modules
+agular-web/.pnp
+agular-web/.pnp.js
+agular-web# testing
+agular-web/coverage
+
+agular-web/build
+agular-web/.DS_Store
+agular-web/.env.local
+agular-web/.env.development.local
+agular-web/.env.test.local
+agular-web/.env.production.local
+agular-web/npm-debug.log*
+agular-web/yarn-debug.log*
+agular-web/yarn-error.log*
+

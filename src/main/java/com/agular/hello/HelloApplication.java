@@ -26,8 +26,8 @@ public class HelloApplication {
 
 	@PostConstruct
 	void insert() {
-		User user1 = userRepository.save(new User("agata", "fran", "agata.fran@gmail.pl", "123"));
-		User user2 = userRepository.save(new User("mati", "kacz", "mati.kacz@gmail.pl", "456"));
+		User user1 = userRepository.save(new User("agata", "fran", "agata.fran@gmail.pl", new BCryptPasswordEncoder().encode("123")));
+		User user2 = userRepository.save(new User("mati", "kacz", "mati.kacz@gmail.pl", new BCryptPasswordEncoder().encode("456")));
 		Book book = new Book("123-123", "The Land of Laughs", "Jonathan Carroll", "EN");
 		book.setBorrower(user2);
 		book.setOwner(user1);
