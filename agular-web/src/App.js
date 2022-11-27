@@ -4,29 +4,22 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import List from "./List";
-import Item from "./Item";
 import Login from "./components/login/login";
 import Register from "./components/register/register";
-import BookList from "./components/bookList/book-list";
-
-
-function setToken(userToken) {
-  localStorage.setItem('token', userToken);
-}
-
-function getToken() {
-  return localStorage.getItem('token');
-}
+import { getToken } from "./utils";
+import AddBook from "./components/addBook/addBook";
+import BorrowBook from "./components/borrowBook/borrowBook";
+import Home from "./components/home/home";
+import { useState } from "react";
 
 function App() {
-  const token = getToken();
+  const localToken = getToken();
+  const [token, setToken] = useState(localToken);
   if (!token) {
     return (
       <Router>
         <Routes>
           <Route path={'/'} element={<Login setToken={setToken}/>}/>
-          <Route path={'/login'} element={<Login setToken={setToken}/>}/>
           <Route path={'/register'} element={<Register/>}/>
         </Routes>
       </Router>
@@ -34,12 +27,11 @@ function App() {
   }
   return (
     <div className="wrapper">
-      <h1>Application</h1>
       <Router>
         <Routes>
-          {/*<Route path='/login' element={<Login setToken={setToken}/>}/>*/}
-          {/*<Route path='/register' element={<Register/>}/>*/}
-          <Route path='/' element={<BookList/>}/>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/addBook' element={<AddBook/>}/>
+          <Route path='/borrowBook' element={<BorrowBook/>}/>
         </Routes>
       </Router>
     </div>

@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setSession } from "../../utils";
 
 async function loginUser({ email, password }) {
   return axios.post('http://localhost:8080/login', {
@@ -32,6 +33,7 @@ export default function Login({ setToken }) {
       email,
       password
     });
+    setSession(response.data.token);
     setToken(response.data.token);
   }
   return(
@@ -81,6 +83,3 @@ export default function Login({ setToken }) {
     </Container>
   )
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
-};
