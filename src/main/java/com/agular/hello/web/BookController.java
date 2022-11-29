@@ -44,4 +44,9 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBorrowed(email), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Book>> getAll(){
+        return new ResponseEntity<>(bookService.getAll(), HttpStatus.OK);
+    }
+
 }

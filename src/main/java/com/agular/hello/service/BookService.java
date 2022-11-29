@@ -68,4 +68,8 @@ public class BookService {
         return bookRepository.getBooksByBorrower(user);
     }
 
+    public List<Book> getAll(){
+        return (List<Book>) bookRepository.findAll();
+    }
+
 }
