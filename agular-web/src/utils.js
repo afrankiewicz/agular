@@ -7,9 +7,13 @@ export function getUserData() {
   return parseJwt(token);
 }
 
-export function setSession(userToken) {
+export function setToken(userToken) {
   localStorage.setItem('token', userToken);
   return userToken;
+}
+
+export function clearSession() {
+  localStorage.removeItem('token');
 }
 
 const parseJwt = (token) => {

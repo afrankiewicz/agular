@@ -3,11 +3,18 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import BookList from "../bookList/bookList";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { clearSession } from "../../utils";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const logout = () => {
+    clearSession()
+    navigate(0)
+  }
   return (
     <>
       <AppBar position="static">
@@ -18,6 +25,9 @@ export default function Home() {
           <Box sx={{ position: 'absolute', right: 0, paddingRight: 3 }}>
             <Button sx={{width: 150}} variant="contained" onClick={() => navigate('/addBook')}>Add book</Button>
             <Button sx={{width: 150}} variant="contained" onClick={() => navigate('/borrowBook')}>Borrow book</Button>
+            <IconButton edge="end" onClick={() => logout()}>
+              <LogoutIcon/>
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

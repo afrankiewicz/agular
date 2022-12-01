@@ -36,19 +36,36 @@ const books = [{
 
 
 function returnBook(book) {
-  console.log('return', book)
-  return undefined;
+  return axios.put(`http://localhost:8080/book/${book.id}/return`, {}, { headers: { Authorization: `Bearer ${getToken()}` } })
 }
 
 async function getOwnedBooks() {
   return axios.get('http://localhost:8080/book/owned', { headers: { Authorization: `Bearer ${getToken()}` } })
+    .then(resp => resp.data)
+}
+
+async function getBorrowedBooks() {
+  return axios.get('http://localhost:8080/book/borrowed', { headers: { Authorization: `Bearer ${getToken()}` } })
+    .then(resp => resp.data)
 }
 
 export default function BookList() {
   const [ownedBooks, setOwnedBooks] = useState([]);
-  useEffect( () => {
-    getOwnedBooks().then(books => setOwnedBooks(books))
+  useEffect(() => {
+    getOwnedBooks().then(resp => {
+      setOwnedBooks(resp)
+    })
   }, []);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  useEffect(() => {
+    getBorrowedBooks().then(resp => {
+      setBorrowedBooks(resp)
+    })
+  }, []);
+  const handleReturnClick = async (book) => {
+    await returnBook(book);
+    setBorrowedBooks(borrowedBooks.filter(it => it.isbn !== book.isbn));
+  }
   return (
     <>
       <Box>
@@ -56,7 +73,7 @@ export default function BookList() {
           Owned books
         </Typography>
         <List style={{ display: 'flex', flexDirection: 'column', padding: 5 }}>
-          {[].map(book =>
+          {ownedBooks.map(book =>
             <ListItem key={book.isbn}>
               <ListItemText primary={book.title} secondary={book.author}/>
             </ListItem>)
@@ -64,14 +81,14 @@ export default function BookList() {
         </List>
       </Box>
       <Box>
-        <Typography sx={{ mt: 4, mb: 2 , textAlign: 'center'}} variant="h6" component="div">
+        <Typography sx={{ mt: 4, mb: 2, textAlign: 'center' }} variant="h6" component="div">
           Borrowed books
         </Typography>
         <List style={{ display: 'flex', flexDirection: 'column', padding: 5 }}>
-          {books.map(book =>
+          {borrowedBooks.map(book =>
             <ListItem key={book.isbn} secondaryAction={
-              <IconButton edge="end" onClick={() => returnBook(book)}>
-                <ReplayIcon />
+              <IconButton edge="end" onClick={() => handleReturnClick(book)}>
+                <ReplayIcon/>
               </IconButton>
             }>
               <ListItemText primary={book.title} secondary={book.author}/>
