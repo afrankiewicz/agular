@@ -18,7 +18,6 @@ public class BookController {
 
     BookService bookService;
 
-
     @PostMapping()
     public ResponseEntity<Book> registerBook(@Valid @RequestBody Book book, @AuthenticationPrincipal String email){
         return new ResponseEntity<>(bookService.registerBook(book, email), HttpStatus.CREATED);
@@ -42,6 +41,11 @@ public class BookController {
     @GetMapping("/borrowed")
     public ResponseEntity<List<Book>> getBorrowed(@AuthenticationPrincipal String email){
         return new ResponseEntity<>(bookService.getBorrowed(email), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Book>> getAll(@AuthenticationPrincipal String email){
+        return new ResponseEntity<>(bookService.getAllAvailable(email), HttpStatus.OK);
     }
 
 }
