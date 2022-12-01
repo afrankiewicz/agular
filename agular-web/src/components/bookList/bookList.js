@@ -69,7 +69,7 @@ export default function BookList() {
   return (
     <>
       <Box>
-        <Typography sx={{ mt: 4, mb: 2, textAlign: 'center' }} variant="h6" component="div">
+        <Typography sx={{ mt: 4, mb: 2, textAlign: 'center', textTransform: 'uppercase' }} variant="h6" component="div">
           Owned books
         </Typography>
         <List style={{ display: 'flex', flexDirection: 'column', padding: 5 }}>
@@ -81,7 +81,7 @@ export default function BookList() {
         </List>
       </Box>
       <Box>
-        <Typography sx={{ mt: 4, mb: 2, textAlign: 'center' }} variant="h6" component="div">
+        <Typography sx={{ mt: 4, mb: 2, textAlign: 'center', textTransform: 'uppercase' }} variant="h6" component="div">
           Borrowed books
         </Typography>
         <List style={{ display: 'flex', flexDirection: 'column', padding: 5 }}>

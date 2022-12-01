@@ -19,6 +19,9 @@ export default function Home() {
     <>
       <AppBar position="static">
         <Toolbar>
+          <Typography sx={{ mt: 4, mb: 2, margin: 'auto' }} variant="h1">
+            Comly
+          </Typography>
           <Typography sx={{ mt: 4, mb: 2, margin: 'auto' }} variant="h5">
             Community library
           </Typography>
