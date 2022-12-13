@@ -4,42 +4,23 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import List from "./List";
-import Item from "./Item";
 import Login from "./components/login/login";
 import Register from "./components/register/register";
-import BookList from "./components/bookList/book-list";
-
-
-function setToken(userToken) {
-  localStorage.setItem('token', userToken);
-}
-
-function getToken() {
-  return localStorage.getItem('token');
-}
+import AddBook from "./components/addBook/addBook";
+import BorrowBook from "./components/borrowBook/borrowBook";
+import Home from "./components/home/home";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
-  const token = getToken();
-  if (!token) {
-    return (
-      <Router>
-        <Routes>
-          <Route path={'/'} element={<Login setToken={setToken}/>}/>
-          <Route path={'/login'} element={<Login setToken={setToken}/>}/>
-          <Route path={'/register'} element={<Register/>}/>
-        </Routes>
-      </Router>
-    )
-  }
   return (
     <div className="wrapper">
-      <h1>Application</h1>
       <Router>
         <Routes>
-          {/*<Route path='/login' element={<Login setToken={setToken}/>}/>*/}
-          {/*<Route path='/register' element={<Register/>}/>*/}
-          <Route path='/' element={<BookList/>}/>
+          <Route path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
+          <Route path='/addBook' element={<PrivateRoute><AddBook/></PrivateRoute>}/>
+          <Route path='/borrowBook' element={<PrivateRoute><BorrowBook/></PrivateRoute>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/login' element={<Login/>}/>
         </Routes>
       </Router>
     </div>

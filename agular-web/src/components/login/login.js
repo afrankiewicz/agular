@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "../../utils";
 
 async function loginUser({ email, password }) {
   return axios.post('http://localhost:8080/login', {
@@ -20,7 +21,7 @@ async function loginUser({ email, password }) {
 }
 
 
-export default function Login({ setToken }) {
+export default function Login() {
   const [email, setEmail] = useState("agata.fran@gmail.pl");
   const [password, setPassword] = useState("123");
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Login({ setToken }) {
       password
     });
     setToken(response.data.token);
+    navigate('/')
   }
   return(
     <Container component="main" maxWidth="xs">
@@ -81,6 +83,3 @@ export default function Login({ setToken }) {
     </Container>
   )
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
-};
