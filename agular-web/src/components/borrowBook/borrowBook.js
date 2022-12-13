@@ -36,8 +36,8 @@ const books = [{
     borrower: { id: 1, lastName: 'borrower last name3', firstName: 'borrower first name3', email: 'borrower3@wpp.pl' }
   }]
 
-async function getBorrowedBooks() {
-  return axios.get('http://localhost:8080/book', { headers: { Authorization: `Bearer ${getToken()}` } })
+async function getAvailableBooks() {
+  return axios.get('http://localhost:8080/book/all', { headers: { Authorization: `Bearer ${getToken()}` } })
     .then(resp => resp.data)
 }
 
@@ -48,7 +48,7 @@ async function borrowBook(book) {
 export default function BorrowBook() {
   const [availableBooks, setAvailableBooks] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {getBorrowedBooks().then(setAvailableBooks)}, [])
+  useEffect(() => {getAvailableBooks().then(setAvailableBooks)}, [])
 
   const handleBookBorrow = async (book) => {
     await borrowBook(book);
@@ -60,7 +60,7 @@ export default function BorrowBook() {
         Books to borrow
       </Typography>
       <List style={{ display: 'flex', flexDirection: 'column', padding: 5 }}>
-        {books.map(book =>
+        {availableBooks.map(book =>
           <ListItem key={book.isbn} secondaryAction={
             <IconButton edge="end" onClick={() => handleBookBorrow(book)}>
               <PanToolAltIcon/>
