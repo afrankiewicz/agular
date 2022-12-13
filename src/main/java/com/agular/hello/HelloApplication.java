@@ -31,6 +31,9 @@ public class HelloApplication {
 		Book book = new Book("123-123", "The Land of Laughs", "Jonathan Carroll", "EN");
 		book.setBorrower(user2);
 		book.setOwner(user1);
+		Book book2 = new Book("456-456", "Norwegian Wood", "Haruki Murakami", "EN");
+		book.setBorrower(user1);
+		book.setOwner(user2);
 		bookRepository.save(book);
 	}
 
