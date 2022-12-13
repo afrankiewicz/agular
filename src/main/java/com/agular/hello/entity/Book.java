@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -37,6 +38,9 @@ public class Book {
     @NonNull
     @Column(name = "language", nullable = false)
     private String language;
+
+    @Column(name = "borrow_date")
+    private LocalDate borrowDate;
 
     @JsonIgnore
     @ManyToOne

@@ -7,6 +7,7 @@ import com.agular.hello.repositiry.BookRepository;
 import com.agular.hello.repositiry.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class BookService {
             throw new BadRequestException("Book belongs to you.");
         }
         book.setBorrower(getUserByEmail(email));
+        book.setBorrowDate(LocalDate.now());
         return bookRepository.save(book);
     }
 
@@ -46,6 +48,7 @@ public class BookService {
             throw new BadRequestException("Book is not borrowed by you.");
         }
         book.setBorrower(null);
+        book.setBorrowDate(null);
         return bookRepository.save(book);
     }
 
