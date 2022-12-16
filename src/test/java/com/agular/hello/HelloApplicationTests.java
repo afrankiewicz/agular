@@ -24,7 +24,7 @@ class HelloApplicationTests {
 	@Test
 	void shouldAddUser() {
 		String rawPassword = "qwe123";
-		User user = userService.addUser(new User("Jan", "Kowalski","jkowalski@wp.pl", rawPassword));
+		User user = userService.addUser(new User("Jan", "Kowalski","jkowalski@wp.pl", rawPassword, "Sportowa", "Warszawa"));
 		Optional<User> optionalUser = userService.getUser(user.getId());
 
 		Assert.assertTrue(optionalUser.isPresent());
@@ -37,7 +37,7 @@ class HelloApplicationTests {
 
 	@Test
 	void shouldNotAddUserAlreadyExists(){
-		User user = userService.addUser(new User("Jan", "Kowalski","jkowalski@wp.pl", "qwe123"));
+		User user = userService.addUser(new User("Jan", "Kowalski","jkowalski@wp.pl", "qwe123", "Sportowa", "Warszawa"));
 		userService.addUser(user);
 
 

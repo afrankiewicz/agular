@@ -1,8 +1,6 @@
 package com.agular.hello.entity;
 
-
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -40,4 +38,14 @@ public class User {
     @NotBlank(message = "Password must be provided")
     @Column(name = "password", nullable = false)
     private String password;
+
+    @NonNull
+    @NotBlank(message = "Street must be provided")
+    @Column(name = "street", nullable = false)
+    private String street;
+
+    @NonNull
+    @NotBlank(message = "City must be provided")
+    @Column(name = "city", nullable = false)
+    private String city;
 }
