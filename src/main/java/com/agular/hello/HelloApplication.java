@@ -26,15 +26,16 @@ public class HelloApplication {
 
 	@PostConstruct
 	void insert() {
-		User user1 = userRepository.save(new User("agata", "fran", "agata.fran@gmail.pl", new BCryptPasswordEncoder().encode("123")));
-		User user2 = userRepository.save(new User("mati", "kacz", "mati.kacz@gmail.pl", new BCryptPasswordEncoder().encode("456")));
+		User user1 = userRepository.save(new User("agata", "fran", "agata.fran@gmail.pl", new BCryptPasswordEncoder().encode("123"), "Sportowa", "Wroclaw"));
+		User user2 = userRepository.save(new User("mati", "kacz", "mati.kacz@gmail.pl", new BCryptPasswordEncoder().encode("456"), "Marszalkowska", "Warszawa"));
 		Book book = new Book("123-123", "The Land of Laughs", "Jonathan Carroll", "EN");
 		book.setBorrower(user2);
 		book.setOwner(user1);
 		Book book2 = new Book("456-456", "Norwegian Wood", "Haruki Murakami", "EN");
-		book.setBorrower(user1);
-		book.setOwner(user2);
+		book2.setOwner(user1);
 		bookRepository.save(book);
+		bookRepository.save(book2);
+
 	}
 
 	@Bean

@@ -17,7 +17,7 @@ public class BookServiceTest {
 
     @Test
     public void shouldAddUser() {
-        User user = userService.addUser(new User("q", "w","eee@wp.pl", "r"));
+        User user = userService.addUser(new User("q", "w","eee@wp.pl", "r", "k", "k"));
         Optional<User> optionalUser = userService.getUser(user.getId());
 
         Assert.assertTrue(optionalUser.isPresent());

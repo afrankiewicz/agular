@@ -1,7 +1,9 @@
 package com.agular.hello.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -39,10 +41,11 @@ public class Book {
     @Column(name = "language", nullable = false)
     private String language;
 
-    @Column(name = "borrow_date")
-    private LocalDate borrowDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Column(name = "return_date")
+    private LocalDate returnDate;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;

@@ -21,62 +21,56 @@ public class BookService {
         this.userRepository = userRepository;
     }
 
-    public Book registerBook(Book book, String email){
+    public Book registerBook(Book book, String email) {
         book.setOwner(getUserByEmail(email));
-        if (bookRepository.existsByIsbn(book.getIsbn())){
+        if (bookRepository.existsByIsbn(book.getIsbn())) {
             throw new BadRequestException(String.format("Book with ISBN: '%s' already exists in library.", book.getIsbn()));
         }
         return bookRepository.save(book);
     }
 
-    public Book borrowBook(Long bookId, String email){
+    public Book borrowBook(Long bookId, String email) {
         Book book = getBookById(bookId);
-        if (book.getBorrower() != null){
+        if (book.getBorrower() != null) {
             throw new BadRequestException("Book is already borrowed.");
         } else if (book.getOwner().getEmail().equals(email)) {
             throw new BadRequestException("Book belongs to you.");
         }
         book.setBorrower(getUserByEmail(email));
-        book.setBorrowDate(LocalDate.now());
+        book.setReturnDate(LocalDate.now().plusMonths(1));
         return bookRepository.save(book);
     }
 
-    public Book returnBook(Long bookId, String email){
+    public Book returnBook(Long bookId, String email) {
         Book book = getBookById(bookId);
 
-        if (book.getBorrower() == null || !book.getBorrower().getEmail().equals(email)){
+        if (book.getBorrower() == null || !book.getBorrower().getEmail().equals(email)) {
             throw new BadRequestException("Book is not borrowed by you.");
         }
         book.setBorrower(null);
-        book.setBorrowDate(null);
+        book.setReturnDate(null);
         return bookRepository.save(book);
     }
 
-    public List<Book> getOwned(String email){
+    public List<Book> getOwned(String email) {
         return bookRepository.getBooksByOwner(getUserByEmail(email));
     }
 
-    public List<Book> getBorrowed(String email){
+    public List<Book> getBorrowed(String email) {
         return bookRepository.getBooksByBorrower(getUserByEmail(email));
     }
 
-//    List<Book> getAllAvailable(String email){
-//        return ((List<Book>) bookRepository.findAll()).stream()
-//                .filter(book -> book.getBorrower() == null)
-//                .filter(book -> !book.getOwner().getEmail().equals(email))
-//                .collect(Collectors.toList());
-//    }
-    public List<Book> getAllAvailable(String email){
+    public List<Book> getAllAvailable(String email) {
         return bookRepository.getAllAvailable(getUserByEmail(email).getId());
     }
 
-    private User getUserByEmail(String email){
+    private User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BadRequestException("User does not exist."));
     }
-    private Book getBookById(Long bookId){
+
+    private Book getBookById(Long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BadRequestException("Book does not exist."));
     }
-
 }
