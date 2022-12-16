@@ -37,12 +37,12 @@ const books = [{
   }]
 
 async function getAvailableBooks() {
-  return axios.get('http://localhost:8080/book/all', { headers: { Authorization: `Bearer ${getToken()}` } })
+  return axios.get('http://localhost:8080/books/all', { headers: { Authorization: `Bearer ${getToken()}` } })
     .then(resp => resp.data)
 }
 
 async function borrowBook(book) {
-  return axios.put(`http://localhost:8080/book/${book.id}/borrow`,{},{ headers: { Authorization: `Bearer ${getToken()}` } })
+  return axios.put(`http://localhost:8080/books/${book.id}/borrow`,{},{ headers: { Authorization: `Bearer ${getToken()}` } })
 }
 
 export default function BorrowBook() {

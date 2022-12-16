@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { getToken } from "../../utils";
 
 async function addBook({ isbn, title, author, language }) {
-  return axios.post('http://localhost:8080/book', {
+  return axios.post('http://localhost:8080/books', {
     isbn,
     title,
     author,

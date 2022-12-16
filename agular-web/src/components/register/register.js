@@ -12,7 +12,7 @@ import { Alert, Snackbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 async function registerUser({ email, password, firstName, lastName }) {
-  return axios.post('http://localhost:8080/user/register', {
+  return axios.post('http://localhost:8080/users/register', {
     email,
     password,
     firstName,
