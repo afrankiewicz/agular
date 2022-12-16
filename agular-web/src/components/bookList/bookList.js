@@ -5,35 +5,8 @@ import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getToken } from "../../utils";
-
-const books = [{
-  id: 1,
-  isbn: '23123',
-  title: 'book title',
-  author: 'book author',
-  language: 'pl',
-  owner: { id: 1, lastName: 'owner last name', firstName: 'owner first name', email: 'owner@wpl.pl' },
-  borrower: { id: 1, lastName: 'borrower last name', firstName: 'borrower first name', email: 'borrower@wpp.pl' }
-},
-  {
-    id: 2,
-    isbn: 'bbb',
-    title: 'book title 2',
-    author: 'book author 2',
-    language: 'pl',
-    owner: { id: 1, lastName: 'owner last name 2', firstName: 'owner first name 2', email: 'owner2@wpl.pl' },
-    borrower: { id: 1, lastName: 'borrower last name2', firstName: 'borrower first name2', email: 'borrower2@wpp.pl' }
-  },
-  {
-    id: 3,
-    isbn: 'vvv',
-    title: 'book title 3',
-    author: 'book author3',
-    language: 'pl',
-    owner: { id: 1, lastName: 'owner last name3', firstName: 'owner first name3', email: 'owner3@wpl.pl' },
-    borrower: { id: 1, lastName: 'borrower last name3', firstName: 'borrower first name3', email: 'borrower3@wpp.pl' }
-  }]
-
+import EmailIcon from '@mui/icons-material/Email';
+import Link from "@mui/material/Link";
 
 function returnBook(book) {
   return axios.put(`http://localhost:8080/book/${book.id}/return`, {}, { headers: { Authorization: `Bearer ${getToken()}` } })
@@ -48,6 +21,14 @@ async function getBorrowedBooks() {
   return axios.get('http://localhost:8080/book/borrowed', { headers: { Authorization: `Bearer ${getToken()}` } })
     .then(resp => resp.data)
 }
+
+const style = {    margin: 0,
+'font-weight': 400,
+'font-size': '0.875rem',
+'line-height': 1.43,
+'letter-spacing': '0.01071em',
+'color': 'rgba(0, 0, 0, 0.6)',
+display: 'block'}
 
 export default function BookList() {
   const [ownedBooks, setOwnedBooks] = useState([]);
@@ -91,7 +72,11 @@ export default function BookList() {
                 <ReplayIcon/>
               </IconButton>
             }>
-              <ListItemText primary={book.title} secondary={book.author}/>
+              <span>
+                <ListItemText primary={book.title} secondary={'return date: 19-11-2022'}/>
+                  {/*<ListItemText secondary={'return date: 19-11-2022'}/>*/}
+                <Link href="mailto:omg@wp.pl" underline="hover">owner email: omg@wp.pl</Link>
+              </span>
             </ListItem>)
           }
         </List>

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Typography } from "@mui/material";
+import { Alert, Snackbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../../utils";
 
@@ -21,25 +21,44 @@ async function addBook({ isbn, title, author, language }) {
 
 
 export default function AddBook() {
-  const [isbn, setIsbn] = useState((Math.random() + 1).toString(36).substring(7));
-  const [title, setTitle] = useState("agata.fran@gmail.pl");
-  const [author, setAuthor] = useState("agata.fran@gmail.pl");
-  const [language, setLanguage] = useState("123");
+  const [isbn, setIsbn] = useState();
+  const [title, setTitle] = useState();
+  const [author, setAuthor] = useState();
+  const [language, setLanguage] = useState();
+  const [errors, setErrors] = useState();
   const navigate = useNavigate();
 
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrors(undefined);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addBook({
-      isbn,
-      title,
-      author,
-      language
-    });
-    navigate('/')
+    try {
+      await addBook({
+        isbn,
+        title,
+        author,
+        language
+      });
+      setErrors(undefined)
+      navigate('/')
+    } catch (e) {
+      const { data } = e.response;
+      setErrors(Object.values(data));
+    }
   }
   return (
     <Container component="main" maxWidth="xs">
+      <Snackbar open={errors} autoHideDuration={5000} onClose={handleClose}>
+        <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
+          Incorrect input
+        </Alert>
+      </Snackbar>
       <Typography component="h1" variant="h5" sx={{ paddingTop: '5rem', textAlign: 'center' }}>
         Add book
       </Typography>

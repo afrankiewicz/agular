@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Typography } from "@mui/material";
+import { Alert, Snackbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../../utils";
 
@@ -22,22 +22,38 @@ async function loginUser({ email, password }) {
 
 
 export default function Login() {
-  const [email, setEmail] = useState("agata.fran@gmail.pl");
-  const [password, setPassword] = useState("123");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState();
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrors(undefined);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await loginUser({
-      email,
-      password
-    });
-    setToken(response.data.token);
-    navigate('/')
+    try {
+      const response = await loginUser({
+        email,
+        password
+      });
+      setToken(response.data.token);
+      navigate('/')
+    } catch (e) {
+      setErrors(true);
+    }
   }
-  return(
+  return (
     <Container component="main" maxWidth="xs">
+      <Snackbar open={errors} autoHideDuration={5000} onClose={handleClose}>
+        <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
+          Incorrect input
+        </Alert>
+      </Snackbar>
       <Typography component="h1" variant="h5" sx={{ paddingTop: '5rem' }}>
         Sign in
       </Typography>
