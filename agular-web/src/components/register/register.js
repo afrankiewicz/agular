@@ -11,12 +11,14 @@ import Container from '@mui/material/Container';
 import { Alert, Snackbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-async function registerUser({ email, password, firstName, lastName }) {
+async function registerUser({ email, password, firstName, lastName, city, street }) {
   return axios.post('http://localhost:8080/users/register', {
     email,
     password,
     firstName,
-    lastName
+    lastName,
+    city,
+    street
   })
 }
 
@@ -28,6 +30,8 @@ export default function Register() {
   const [lastName, setLastName] = useState();
   const navigate = useNavigate();
   const [errors, setErrors] = useState();
+  const [city, setCity] = useState();
+  const [street, setStreet] = useState();
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -42,6 +46,8 @@ export default function Register() {
         password,
         firstName,
         lastName,
+        city,
+        street
       });
       navigate('/')
     } catch (e) {
@@ -87,6 +93,24 @@ export default function Register() {
           label="Last name"
           name="lastName"
           onChange={e => setLastName(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="city"
+          label="City"
+          name="city"
+          onChange={e => setCity(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="street"
+          label="Street"
+          name="street"
+          onChange={e => setStreet(e.target.value)}
         />
         <TextField
           margin="normal"
