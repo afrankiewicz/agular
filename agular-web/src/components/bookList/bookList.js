@@ -76,7 +76,7 @@ export default function BookList() {
             <ListItem key={book.isbn}>
               <span>
                 <ListItemText primary={book.title}/>
-                <ListItemText primary={book.author}/>
+                <ListItemText sx={{fontStyle: 'italic'}} primary={`by ${book.author}`}/>
                 <ListItemText secondary={`until ${book.returnDate}`} />
                 <ListItemButton disableGutters={true} onClick={() => handleReturnClick(book)}>
                   <ListItemText secondary="return now" />
