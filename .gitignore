@@ -32,19 +32,19 @@ build/
 ### VS Code ###
 .vscode/
 
-agular-web/node_modules
-agular-web/.pnp
-agular-web/.pnp.js
+comly-web/node_modules
+comly-web/.pnp
+comly-web/.pnp.js
 agular-web# testing
-agular-web/coverage
+comly-web/coverage
 
-agular-web/build
-agular-web/.DS_Store
-agular-web/.env.local
-agular-web/.env.development.local
-agular-web/.env.test.local
-agular-web/.env.production.local
-agular-web/npm-debug.log*
-agular-web/yarn-debug.log*
-agular-web/yarn-error.log*
+comly-web/build
+comly-web/.DS_Store
+comly-web/.env.local
+comly-web/.env.development.local
+comly-web/.env.test.local
+comly-web/.env.production.local
+comly-web/npm-debug.log*
+comly-web/yarn-debug.log*
+comly-web/yarn-error.log*
 
