@@ -45,7 +45,6 @@ public class Book {
     @Column(name = "return_date")
     private LocalDate returnDate;
 
-    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;

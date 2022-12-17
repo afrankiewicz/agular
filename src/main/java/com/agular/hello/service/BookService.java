@@ -73,4 +73,5 @@ public class BookService {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BadRequestException("Book does not exist."));
     }
+
 }
